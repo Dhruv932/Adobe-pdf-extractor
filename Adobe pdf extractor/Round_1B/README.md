@@ -27,37 +27,28 @@ Round_1B/
 │ └── faiss.index
 ├── Dockerfile
 
-yaml
-Copy
-Edit
-
 ---
 
 ### 🚀 Run Instructions
 
-#### Docker:
+Docker:
 ```bash
 docker build -t adobe-round1b .
-docker run -v $(pwd)/input:/app/input -v $(pwd)/output:/app/output adobe-round1b
-Local:
-bash
-Copy
-Edit
+docker run -v $(pwd)/input:/app/input -v $(pwd)/output:/app/output round1b
+
+Local:bash
 pip install -r requirements.txt
 python run.py
+
+
 🧩 Input Format
-json
-Copy
-Edit
 {
   "persona": "Health-Conscious",
   "goal": "Find low-fat breakfast options",
   "documents": ["Breakfast Ideas.pdf", "Dinner Ideas - Mains_1.pdf"]
 }
+
 📤 Output Format
-json
-Copy
-Edit
 {
   "persona": "Health-Conscious",
   "goal": "Find low-fat breakfast options",
