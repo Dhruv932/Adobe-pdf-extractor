@@ -1,28 +1,79 @@
-# Adobe India Hackathon 2025 – Round 1B Submission
+# 🤖 Adobe Hackathon 2025 — Round 1B
+## 🧬 Persona-Driven Document Intelligence
 
-## 🔍 Problem Statement
-Given a set of PDFs and a defined persona + job-to-be-done, extract the most relevant sections that match the user's intent.
-
----
-
-## 🧠 Approach
-
-We use a **hybrid semantic retrieval system**:
-1. **Heading + Section Extraction**:
-   - Uses layout and font cues to extract headings (`H1` to `H3`).
-   - Pulls section content between two headings.
-2. **Embedding**:
-   - Uses `intfloat/e5-small-v2` for semantic search.
-3. **Ranking**:
-   - Combines semantic similarity + light keyword-based scoring for improved relevance.
-4. **Output**:
-   - Conforms to Adobe’s required JSON format with `metadata`, `extracted_sections`, and `subsection_analysis`.
+This project solves the 1B challenge using semantic embeddings to extract user-specific content from PDFs based on personas and goals.
 
 ---
 
-## 🛠 How to Build & Run
+### 🛠 Technologies
+- Python
+- FAISS for vector similarity search
+- Sentence Transformers (Embeddings)
+- Docker
 
-### 🔨 Build
+---
 
+### 📂 Folder Structure
+
+Round_1B/
+├── run.py
+├── layout_parser.py
+├── requirements.txt
+├── input/
+│ ├── challenge1b_input.json
+│ └── pdfs/*.pdf
+├── cache/
+│ ├── embeddings.npz
+│ └── faiss.index
+├── Dockerfile
+
+yaml
+Copy
+Edit
+
+---
+
+### 🚀 Run Instructions
+
+#### Docker:
 ```bash
-docker build --platform linux/amd64 -t round1b-solution:latest .
+docker build -t adobe-round1b .
+docker run -v $(pwd)/input:/app/input -v $(pwd)/output:/app/output adobe-round1b
+Local:
+bash
+Copy
+Edit
+pip install -r requirements.txt
+python run.py
+🧩 Input Format
+json
+Copy
+Edit
+{
+  "persona": "Health-Conscious",
+  "goal": "Find low-fat breakfast options",
+  "documents": ["Breakfast Ideas.pdf", "Dinner Ideas - Mains_1.pdf"]
+}
+📤 Output Format
+json
+Copy
+Edit
+{
+  "persona": "Health-Conscious",
+  "goal": "Find low-fat breakfast options",
+  "matches": [
+    {
+      "document": "Breakfast Ideas.pdf",
+      "text": "Oatmeal with fruits",
+      "score": 0.89
+    }
+  ]
+}
+⚙️ How It Works
+PDFs are parsed using layout_parser.py
+
+Sentences are embedded using pretrained Sentence Transformers
+
+FAISS indexes embeddings for fast similarity search
+
+The best matching sentences are returned per persona-goal pair
